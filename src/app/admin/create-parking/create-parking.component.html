@@ -1,0 +1,71 @@
+<main class="pa4 black-80 spacer">
+    <form
+      class="measure center mt4 pt4"
+      [formGroup]="createParkingForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <fieldset class="ba b--transparent black ph0 mh0">
+        <legend class="f4 fw4 ph0 mh0">Create User</legend>
+        
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Vehical no</mat-label>
+            <input formControlName="vehicleNumber" matInput placeholder="GJ555" />
+            <mat-error *ngIf="f.vehicleNumber.hasError('required')"> Required </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="mt2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Driver Name</mat-label>
+              <input formControlName="driverName" matInput placeholder="Riya" />
+              <mat-error *ngIf="f.driverName.hasError('required')"> Required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mt2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Cleaning Service</mat-label>
+              <input formControlName="withCleaningService" matInput placeholder="Yes" />
+              <mat-error *ngIf="f.withCleaningService.hasError('required')"> Required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mt2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Parking cost</mat-label>
+              <input formControlName="parkingCost" matInput placeholder="200" />
+              <mat-error *ngIf="f.parkingCost.hasError('required')"> Required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mt2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Vehical no</mat-label>
+              <input formControlName="cleaningCost" matInput placeholder="100" />
+              <mat-error *ngIf="f.cleaningCost.hasError('required')"> Required </mat-error>
+            </mat-form-field>
+          </div>
+        
+      </fieldset>
+      <div class="mv2">
+        <button class="w-100" mat-stroked-button color="primary">Create</button>
+      </div>
+      
+    </form>
+  </main>
+  
+  <footer class="pv4 ph3 ph5-m ph6-l mid-gray">
+    <small class="f6 db tc"
+      >© 2021 <b class="ttu">MechPark</b> All Rights Reserved</small
+    >
+    <div class="tc">
+      <a href="/language/" title="Language" class="f6 dib ph2 link mid-gray dim"
+        >Language</a
+      >
+      <a href="/terms/" title="Terms" class="f6 dib ph2 link mid-gray dim"
+        >Terms of Use</a
+      >
+      <a href="/privacy/" title="Privacy" class="f6 dib ph2 link mid-gray dim"
+        >Privacy</a
+      >
+    </div>
+  </footer>
+  
