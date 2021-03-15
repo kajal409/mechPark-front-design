@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-import { GarageService } from 'src/app/_services/garage.service';
+import { GarageService } from '../_services/garage.service';
 import { Router } from '@angular/router';
-import { RegisterRole } from 'src/app/_models/registerRole';
-import { map, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-garage',
@@ -16,127 +19,89 @@ import { Observable } from 'rxjs';
   styleUrls: ['./create-garage.component.css']
 })
 export class CreateGarageComponent implements OnInit {
-
   createGarageForm: FormGroup;
   submitted = false;
-  roles: RegisterRole[] = [
-    { value: 'AllocationManager', viewValue: 'Allocation Manager' },
-    { value: 'ParkingManager', viewValue: 'Parking Manager' },
-    { value: 'User', viewValue: 'Customer' }
-  ];
-  stateOptions: string[] = [
-    'Andhra Pradesh',
-    'Arunachal Pradesh',
-    'Assam',
-    'Bihar',
-    'Chhattisgarh',
-    'Goa',
-    'Gujarat',
-    'Haryana',
-    'Himachal Pradesh',
-    'Jharkhand',
-    'Karnataka',
-    'Kerala',
-    'Madhya Pradesh',
-    'Maharashtra',
-    'Manipur',
-    'Meghalaya',
-    'Mizoram',
-    'Nagaland',
-    'Odisha',
-    'Punjab',
-    'Rajasthan',
-    'Sikkim',
-    'Tamil Nadu',
-    'Telangana',
-    'Tripura',
-    'Uttar Pradesh',
-    'Uttarakhand',
-    'West Bengal'
-  ];
+  hasCleaningServiceFlag: boolean;
 
-  filteredStateOptions: Observable<string[]>;
   constructor(
     private formBuilder: FormBuilder,
-    public garageSerivice: GarageService,
+    private garageService: GarageService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.createGarageForm = this.formBuilder.group({
+      name: this.formBuilder.control('', [Validators.required]),
+      address: this.formBuilder.control('', [Validators.required]),
+      city: this.formBuilder.control('', [Validators.required]),
+      state: this.formBuilder.control('', [Validators.required]),
+      phone: this.formBuilder.control('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/),
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]),
+      parkingRate: this.formBuilder.control('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/)
+      ]),
+      hasCleaningService: this.formBuilder.control('', [Validators.required])
+    });
 
-    this.createGarageForm = this.formBuilder.group(
-      {
-        name: ['', Validators.required],
-        address: ['', Validators.required],
-        state: ['', Validators.required],
-        hasCleaning: ['', Validators.required],
-        totalspace: ['', Validators.required],
-        occupiedCapacity: ['',Validators.required],
-        parkingRate: ['', Validators.required]
-      }
-    );
-
-    this.filteredStateOptions = this.createGarageForm.controls[
-      'state'
-    ].valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value))
-    );
+    this.createGarageForm.controls['hasCleaningService'].setValue(false);
+    this.createGarageForm.addControl('cleaningRate', new FormControl());
+    // this.createGarageForm.controls['cleaningRate'].setValue('0');
   }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.stateOptions.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
-
-  hide = true;
 
   get f() {
     return this.createGarageForm.controls;
   }
 
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.createGarageForm.invalid) {
-      return;
+  updateCleaningRate(event: any): void {
+    this.hasCleaningServiceFlag = event.checked;
+    if (event.checked) {
+      // this.createGarageForm.addControl('cleaningRate', new FormControl());
+      this.createGarageForm.controls['cleaningRate'].reset();
+      this.createGarageForm.controls['cleaningRate'].setValidators([
+        Validators.required
+      ]);
+    } else {
+      this.createGarageForm.controls['cleaningRate'].setValue('0');
+      // this.createGarageForm.removeControl('cleaningRate');
     }
-
-    alert(JSON.stringify(this.createGarageForm.value));
-
-    this.garageSerivice
-      .create(this.createGarageForm.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this._snackBar.open('✓ Garage Created', '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'top'
-          });
-          console.log('Garage Created Success');
-          this.router.navigate(['/admin']);
-        },
-        (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'top'
-          });
-          this.onReset();
-          console.log(error);
-        }
-      );
-
   }
 
-  onReset() {
+  onSubmit(): void {
+    this.submitted = true;
+
+    this.garageService.create(this.createGarageForm.value).subscribe(
+      () => {
+        this._snackBar.open(`✓ Garage Created`, '', {
+          duration: 1500,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.router.navigate(['']);
+      },
+      (error) => {
+        this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          duration: 1500,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.onReset();
+      }
+    );
+  }
+
+  onReset(): void {
     this.submitted = false;
     this.createGarageForm.reset();
   }
 
+  ngAfterViewChecked(): void {
+    this.cdRef.detectChanges();
+  }
 }
