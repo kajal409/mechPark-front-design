@@ -3,12 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MustMatch } from 'src/app/_helpers/must-match.validator';
-
-import { UserService } from 'src/app/_services/user.service';
 import { Router } from '@angular/router';
 import { RegisterRole } from 'src/app/_models/registerRole';
-import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ParkingService } from 'src/app/_services/parking.service';
 
@@ -65,7 +61,7 @@ export class CreateParkingComponent implements OnInit {
     alert(JSON.stringify(this.createParkingForm.value));
 
     this.parkingService
-      .register(this.createParkingForm.value)
+      .book(this.createParkingForm.value)
       .pipe(first())
       .subscribe(
         (data: any) => {

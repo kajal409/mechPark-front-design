@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first, map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { UserService } from 'src/app/_services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/app/_models/user';
 import { Observable } from 'rxjs';
 import { Space } from 'src/app/_models/space';
 import { SpaceService } from 'src/app/_services/space.service';
@@ -18,7 +16,7 @@ import { SpaceService } from 'src/app/_services/space.service';
 export class EditSpaceComponent implements OnInit {
 
   id: number;
-  space: Space;
+  spaces: Space;
   editSpaceForm: FormGroup;
   submitted = false;
 
@@ -35,9 +33,9 @@ export class EditSpaceComponent implements OnInit {
   ngOnInit(): void {
 
     this.id = this.route.snapshot.params['id'];
-    //this.space = this.spaceService.;
-    this.space = this.space;
-    console.log(this.space);
+    //this.spaces = this.spaceService.;
+    this.spaces = this.spaces;
+    console.log(this.spaces);
     this.editSpaceForm = this.formBuilder.group({
       code: ['', Validators.required],
       totalCapacity: ['', Validators.required],

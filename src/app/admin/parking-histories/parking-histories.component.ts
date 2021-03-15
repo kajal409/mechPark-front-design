@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/user';
 import {
   animate,
   state,
@@ -11,6 +9,8 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ParkingService } from 'src/app/_services/parking.service';
+import { Parking } from 'src/app/_models/parking';
 
 @Component({
   selector: 'app-parking-histories',
@@ -29,9 +29,56 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ParkingHistoriesComponent implements OnInit {
 
-  constructor() { }
+  parkings: Parking[];
+  filteredParking: Parking[];
+  parkingSource: MatTableDataSource<Parking>;
+  expandedElement: Parking | null;
+  parkingColumnsToDisplay = [
+    'vehicleNumber',
+    'driverName',
+    'userCheckIn',
+    'userCheckOut',
+    'withCleaningService',
+    'parkingCost',
+    'cleaningCost',
+    'isActive',
+    'cost'
+  ];
+  value = '';
+  
+  @ViewChild(MatSort) sort: MatSort;
+  
+  constructor(
+    private parkingService: ParkingService,
+    //private _snackBar: MatSnackBar
+  ) { }
 
-  ngOnInit(): void {
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.parkingSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.parkingSource.paginator) {
+      this.parkingSource.paginator.firstPage();
+    }
   }
+
+  
+  ngOnInit(): void {
+
+    this.parkingService.getAll().subscribe((parkings: Parking[]) => {
+      this.parkings = parkings;
+      this.filteredParking = this.parkings.filter((parking) => {
+        //check
+        return parking != 'Admin';
+      });
+      this.parkingSource = new MatTableDataSource<Parking>(this.filteredParking);
+
+      // this.parkingSource.paginator = this.paginator;
+      this.parkingSource.sort = this.sort;
+    });
+
+  }
+
 
 }

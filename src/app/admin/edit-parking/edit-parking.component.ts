@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first, map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { UserService } from 'src/app/_services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/app/_models/user';
 import { Observable } from 'rxjs';
 import { Parking } from 'src/app/_models/parking';
 import { ParkingService } from 'src/app/_services/parking.service';
@@ -34,7 +32,8 @@ export class EditParkingComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.parking = this.parkingService.userValue;
+    //this.parking = this.parkingService.;
+    this.parking;
     console.log(this.parking);
     this.editParkingForm = this.formBuilder.group({
       vehicleNumber: ['', Validators.required],

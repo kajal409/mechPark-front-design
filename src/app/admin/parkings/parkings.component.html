@@ -1,6 +1,6 @@
 <div class="pa4">
     <div class="overflow-auto">
-     <button routerLink="./create-parking" mat-icon-button aria-label="Add Garage">
+     <button routerLink="./create-parking" mat-icon-button aria-label="Add Parking">
         <mat-icon>add</mat-icon>
       </button>
       <mat-form-field class="w-100">
@@ -18,53 +18,53 @@
         <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
         <ng-container matColumnDef="vehicleNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehical number</th>
-          <td mat-cell *matCellDef="let parking">{{ parking.vehicleNumber }}</td>
+          <td mat-cell *matCellDef="let parkings">{{ parkings.vehicleNumber }}</td>
         </ng-container>
   
         <ng-container matColumnDef="driverName">
           <th mat-header-cell *matHeaderCellDef>Driver Name</th>
-          <td mat-cell *matCellDef="let parking">{{ parking.driverName }}</td>
+          <td mat-cell *matCellDef="let parkings">{{ parkings.driverName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="userCheckIn">
             <th mat-header-cell *matHeaderCellDef> Check In</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.userCheckIn }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.userCheckIn }}</td>
         </ng-container>
 
         <ng-container matColumnDef="userCheckOut">
             <th mat-header-cell *matHeaderCellDef>Check Out</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.userCheckOut }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.userCheckOut }}</td>
         </ng-container>
 
         <ng-container matColumnDef="withCleaningService">
             <th mat-header-cell *matHeaderCellDef>Cleaning Service</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.withCleaningService }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.withCleaningService }}</td>
         </ng-container>
 
         <ng-container matColumnDef="parkingCost">
             <th mat-header-cell *matHeaderCellDef>Parking Cost</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.parkingCost }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.parkingCost }}</td>
         </ng-container>
 
         <ng-container matColumnDef="cleaningCost">
             <th mat-header-cell *matHeaderCellDef>Cleaning Cost</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.cleaningCost }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.cleaningCost }}</td>
         </ng-container>
 
         <ng-container matColumnDef="isActive">
             <th mat-header-cell *matHeaderCellDef>Active</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.isActive }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.isActive }}</td>
         </ng-container>
 
         <ng-container matColumnDef="cost">
             <th mat-header-cell *matHeaderCellDef>Cost</th>
-            <td mat-cell *matCellDef="let parking">{{ parking.cost }}</td>
+            <td mat-cell *matCellDef="let parkings">{{ parkings.cost }}</td>
         </ng-container>
   
         
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let parking">
+          <td mat-cell *matCellDef="let parkings">
             <button
               routerLink="create-parking/"
               mat-icon-button
@@ -79,7 +79,7 @@
             >
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="delete(1)"  mat-icon-button aria-label="Delete Parking">
+            <button (click)="delete(parkings.id)"  mat-icon-button aria-label="Delete Parking">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -87,40 +87,7 @@
 
       </table>
   
-      <!-- <table class="f6 w-100 mw8 center" cellspacing="0">
-        <thead>
-          <tr>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Name</th>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Email</th>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">City</th>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">State</th>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Phone</th>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Created</th>
-            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="lh-copy">
-          <tr *ngFor="let user of users">
-            <td class="pv3 pr3 bb b--black-20">{{user.name}}</td>
-            <td class="pv3 pr3 bb b--black-20">{{user.email}}</td>
-            <td class="pv3 pr3 bb b--black-20">{{user.city}}</td>
-            <td class="pv3 pr3 bb b--black-20">{{user.state}}</td>
-            <td class="pv3 pr3 bb b--black-20">{{user.phone}}</td>
-            <td class="pv3 pr3 bb b--black-20">{{user.created | date: 'dd/MM/YY  hh:mm a'}}</td>
-            <td class="pv3 pr3 bb b--black-20">
-              <button routerLink="create-user/" mat-icon-button aria-label="Add User">
-                <mat-icon>add</mat-icon>
-              </button>
-              <button routerLink="edit-user/{{user.id}}" mat-icon-button aria-label="Edit User">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button aria-label="Delete User">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
+      
     </div>
   </div>
   

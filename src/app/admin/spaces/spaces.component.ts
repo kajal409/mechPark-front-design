@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/user';
 import {
   animate,
   state,
@@ -31,7 +29,7 @@ import { SpaceService } from 'src/app/_services/space.service';
 })
 export class SpacesComponent implements OnInit {
 
-  space: Space[];
+  spaces: Space[];
   filteredSpace: Space[];
   spaceSource: MatTableDataSource<Space>;
   expandedElement: Space | null;
@@ -64,14 +62,15 @@ export class SpacesComponent implements OnInit {
       .pipe()
       .subscribe(
         () => {
-          this.spaceService.getAll().subscribe((users: User[]) => {
-            this.space = users;
-            this.filteredSpace = this.space.filter((space) => {
+          this.spaceService.getAll().subscribe((spaces: Space[]) => {
+            this.spaces = spaces;
+            this.filteredSpace = this.spaces.filter((space) => {
+              //check
               return space != 'Admin';
             });
-            this.spaceSource = new MatTableDataSource<User>(this.filteredSpace);
+            this.spaceSource = new MatTableDataSource<Space>(this.filteredSpace);
 
-            // this.userSource.paginator = this.paginator;
+            // this.spaceSource.paginator = this.paginator;
             this.spaceSource.sort = this.sort;
           });
           this._snackBar.open('✓ Deleted', '', {
@@ -91,14 +90,15 @@ export class SpacesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.spaceService.getAll().subscribe((users: User[]) => {
-      this.space = users;
-      this.filteredSpace = this.space.filter((space) => {
+    this.spaceService.getAll().subscribe((spaces: Space[]) => {
+      this.spaces = spaces;
+      this.filteredSpace = this.spaces.filter((space) => {
+        //check
         return space != 'Admin';
       });
-      this.spaceSource = new MatTableDataSource<User>(this.filteredSpace);
+      this.spaceSource = new MatTableDataSource<Space>(this.filteredSpace);
 
-      // this.userSource.paginator = this.paginator;
+      // this.spacesSource.paginator = this.paginator;
       this.spaceSource.sort = this.sort;
     });
   }

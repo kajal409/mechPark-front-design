@@ -3,13 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MustMatch } from 'src/app/_helpers/must-match.validator';
-
-import { UserService } from 'src/app/_services/user.service';
 import { Router } from '@angular/router';
 import { RegisterRole } from 'src/app/_models/registerRole';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SpaceService } from 'src/app/_services/space.service';
 
 @Component({
   selector: 'app-create-space',
@@ -29,7 +27,7 @@ export class CreateSpaceComponent implements OnInit {
   filteredStateOptions: Observable<string[]>;
   constructor(
     private formBuilder: FormBuilder,
-    public userService: UserService,
+    public spaceService: SpaceService,
     private _snackBar: MatSnackBar,
     private router: Router
   ) {}
@@ -76,8 +74,8 @@ export class CreateSpaceComponent implements OnInit {
 
     alert(JSON.stringify(this.createSpaceForm.value));
 
-    this.userService
-      .register(this.createSpaceForm.value)
+    this.spaceService
+      .create(this.createSpaceForm.value)
       .pipe(first())
       .subscribe(
         (data) => {

@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/user';
 import {
   animate,
   state,
@@ -11,8 +9,6 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Garage } from 'src/app/_models/garage';
-import { GarageService } from 'src/app/_services/garage.service';
 import { Parking } from 'src/app/_models/parking';
 import { ParkingService } from 'src/app/_services/parking.service';
 
@@ -33,7 +29,7 @@ import { ParkingService } from 'src/app/_services/parking.service';
 })
 export class ParkingsComponent implements OnInit {
 
-  parking: Parking[];
+  parkings: Parking[];
   filteredParking: Parking[];
   parkingSource: MatTableDataSource<Parking>;
   expandedElement: Parking | null;
@@ -73,14 +69,16 @@ export class ParkingsComponent implements OnInit {
       .pipe()
       .subscribe(
         () => {
-          this.parkingService.getAll().subscribe((garage: Garage[]) => {
-            this.parking = garage;
-            this.filteredParking = this.parking.filter((parking) => {
+          //check
+          this.parkingService.getAll().subscribe((parkings: Parking[]) => {
+            this.parkings = parkings;
+            this.filteredParking = this.parkings.filter((parking) => {
+              //check
               return parking != 'Admin';
             });
-            this.parkingSource = new MatTableDataSource<User>(this.filteredParking);
+            this.parkingSource = new MatTableDataSource<Parking>(this.filteredParking);
 
-            // this.userSource.paginator = this.paginator;
+            // this.parkingSource.paginator = this.paginator;
             this.parkingSource.sort = this.sort;
           });
           this._snackBar.open('✓ Deleted', '', {
@@ -101,14 +99,15 @@ export class ParkingsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.parkingService.getAll().subscribe((users: User[]) => {
-      this.parking = users;
-      this.filteredParking = this.parking.filter((parking) => {
+    this.parkingService.getAll().subscribe((parkings: Parking[]) => {
+      this.parkings = parkings;
+      this.filteredParking = this.parkings.filter((parking) => {
+        //check
         return parking != 'Admin';
       });
-      this.parkingSource = new MatTableDataSource<User>(this.filteredParking);
+      this.parkingSource = new MatTableDataSource<Parking>(this.filteredParking);
 
-      // this.userSource.paginator = this.paginator;
+      // this.parkingSource.paginator = this.paginator;
       this.parkingSource.sort = this.sort;
     });
 

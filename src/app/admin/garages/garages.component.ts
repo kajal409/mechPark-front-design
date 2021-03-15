@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/user';
 import {
   animate,
   state,
@@ -31,7 +29,7 @@ import { GarageService } from 'src/app/_services/garage.service';
 })
 export class GaragesComponent implements OnInit {
 
-  garage: Garage[];
+  garages: Garage[];
   filteredGarage: Garage[];
   garageSource: MatTableDataSource<Garage>;
   expandedElement: Garage | null;
@@ -70,13 +68,15 @@ export class GaragesComponent implements OnInit {
       .subscribe(
         () => {
           this.garageService.getAll().subscribe((garage: Garage[]) => {
-            this.garage = garage;
-            this.filteredGarage = this.garage.filter((garage) => {
-              return garage != 'Admin';
+            this.garages = garage;
+            this.filteredGarage = this.garages.filter((garages) => {
+              //check
+              return garages != 'Admin';
             });
-            this.garageSource = new MatTableDataSource<User>(this.filteredGarage);
+            
+            this.garageSource = new MatTableDataSource<Garage>(this.filteredGarage);
 
-            // this.userSource.paginator = this.paginator;
+            // this.garageSource.paginator = this.paginator;
             this.garageSource.sort = this.sort;
           });
           this._snackBar.open('✓ Deleted', '', {
@@ -98,14 +98,15 @@ export class GaragesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.garageService.getAll().subscribe((users: User[]) => {
-      this.garage = users;
-      this.filteredGarage = this.garage.filter((garage) => {
-        return garage != 'Admin';
+    this.garageService.getAll().subscribe((garages: Garage[]) => {
+      this.garages = this.garages;
+      this.filteredGarage = this.garages.filter((garages) => {
+        //check
+        return garages != 'Admin';
       });
-      this.garageSource = new MatTableDataSource<User>(this.filteredGarage);
+      this.garageSource = new MatTableDataSource<Garage>(this.filteredGarage);
 
-      // this.userSource.paginator = this.paginator;
+      // this.garageSource.paginator = this.paginator;
       this.garageSource.sort = this.sort;
     });
 
