@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, startWith, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MustMatch } from '../_helpers/must-match.validator';
@@ -10,6 +10,8 @@ import { MustMatch } from '../_helpers/must-match.validator';
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 import { RegisterRole } from 'src/app/_models/registerRole';
+import { Observable } from 'rxjs/internal/Observable';
+import { get } from 'http';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +25,38 @@ export class RegisterComponent implements OnInit {
   ];
   registerForm: FormGroup;
   submitted = false;
+
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +90,25 @@ export class RegisterComponent implements OnInit {
         validator: MustMatch('password', 'confirmPassword')
       }
     );
+
+    this.filteredStateOptions = this.registerForm.controls[
+      'state'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
   }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.stateOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+
+
+  
 
   hide = true;
 

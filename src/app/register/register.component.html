@@ -1,5 +1,5 @@
 <div class="flex flex-column justify-between">
-    <header class="bg-black inter">
+  <!--  <header class="bg-black inter">
         <nav class="db dt-l w-100 mw8 center border-box pa3">
             <a routerLink="/" class="db dtc-l v-mid mid-gray link dim w-100 w-25-l tc tl-l mb2 mb0-l" title="Home">
                 <svg width="27" height="25" viewBox="0 0 27 25" outline="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,7 +11,7 @@
                 <a mat-stroked-button color="accent" routerLink="/login">Login</a>
             </div>
         </nav>
-    </header>
+    </header>-->
 
 
     <main class="pa4 black-80 spacer">
@@ -80,10 +80,15 @@
                 <div class="mt2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>State</mat-label>
-                        <input formControlName="state" matInput placeholder="John Doe" />
+                        <input formControlName="state" matInput placeholder="Gujarat" [matAutocomplete]="auto"/>
                         <mat-error *ngIf="f.state.hasError('required')">
                             Required
                         </mat-error>
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+                              {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
                 <div class="mt2">
